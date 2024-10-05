@@ -37,5 +37,19 @@ def q2():
     r = model.generate_content(q)
     return(render_template("q2_reply.html",r=r))
 
+@app.route("/creditability", methods=["GET", "POST"])
+def creditability():
+    q = request.form.get("q")  # Retrieve input value
+    if q:
+        try:
+            q = float(q)
+            r = (-0.00012486 * q) + 1.27724011  # Corrected formula (removed the opening bracket)
+            return render_template("creditability_result.html", r=r)  # Pass result to template
+        except ValueError:
+            return render_template("creditability.html", r="Invalid input")  # Handle conversion error
+    else:
+        return render_template("creditability.html", r="No input provided")  # Handle missing input
+
+
 if __name__ == "__main__":
     app.run()
